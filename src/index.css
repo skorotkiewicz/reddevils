@@ -1,0 +1,557 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Custom game colors */
+  --color-hellfire: var(--hellfire);
+  --color-hellfire-glow: var(--hellfire-glow);
+  --color-obsidian: var(--obsidian);
+  --color-chrome: var(--chrome);
+  --color-digital-red: var(--digital-red);
+  --color-void: var(--void);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #0a0a0f;
+  --foreground: #e8e8f0;
+  --card: #12121a;
+  --card-foreground: #e8e8f0;
+  --popover: #12121a;
+  --popover-foreground: #e8e8f0;
+  --primary: #ff1a1a;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a2e;
+  --secondary-foreground: #e8e8f0;
+  --muted: #1a1a2e;
+  --muted-foreground: #888899;
+  --accent: #ff4444;
+  --accent-foreground: #ffffff;
+  --destructive: #ff0033;
+  --border: rgba(255, 26, 26, 0.2);
+  --input: rgba(255, 26, 26, 0.1);
+  --ring: #ff1a1a;
+
+  /* Game-specific colors */
+  --hellfire: #ff1a1a;
+  --hellfire-glow: #ff4444;
+  --obsidian: #0a0a0f;
+  --chrome: #c0c0c0;
+  --digital-red: #ff0033;
+  --void: #050508;
+
+  /* Chart colors - cyber themed */
+  --chart-1: #ff1a1a;
+  --chart-2: #ff4444;
+  --chart-3: #ff6666;
+  --chart-4: #cc0000;
+  --chart-5: #990000;
+
+  --sidebar: #0a0a0f;
+  --sidebar-foreground: #e8e8f0;
+  --sidebar-primary: #ff1a1a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a2e;
+  --sidebar-accent-foreground: #e8e8f0;
+  --sidebar-border: rgba(255, 26, 26, 0.2);
+  --sidebar-ring: #ff1a1a;
+}
+
+/* Base styles */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+  }
+}
+
+/* Scanline effect */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+/* Glitch text effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    text-shadow: -2px 0 #ff0033, 2px 0 #00ffff;
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    text-shadow: 2px 0 #ff0033, -2px 0 #00ffff;
+  }
+  40% {
+    transform: translate(-2px, -2px);
+    text-shadow: -2px 0 #ff0033, 2px 0 #00ffff;
+  }
+  60% {
+    transform: translate(2px, 2px);
+    text-shadow: 2px 0 #ff0033, -2px 0 #00ffff;
+  }
+  80% {
+    transform: translate(2px, -2px);
+    text-shadow: -2px 0 #ff0033, 2px 0 #00ffff;
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: -2px 0 #ff0033, 2px 0 #00ffff;
+  }
+}
+
+.glitch-text {
+  animation: glitch 0.3s infinite;
+}
+
+.glitch-text-subtle {
+  animation: glitch 2s infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.5),
+                0 0 40px rgba(255, 26, 26, 0.3),
+                0 0 60px rgba(255, 26, 26, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 26, 26, 0.8),
+                0 0 60px rgba(255, 26, 26, 0.5),
+                0 0 90px rgba(255, 26, 26, 0.2);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Chain break animation */
+@keyframes chain-break {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+.chain-break {
+  animation: chain-break 0.5s ease-out forwards;
+}
+
+/* Symbol reveal */
+@keyframes symbol-reveal {
+  0% {
+    transform: scale(0) rotateY(180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotateY(90deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.symbol-reveal {
+  animation: symbol-reveal 0.4s ease-out forwards;
+}
+
+/* Hellfire gradient background */
+@keyframes hellfire-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hellfire-bg {
+  background: linear-gradient(
+    -45deg,
+    #0a0a0f,
+    #1a0a0a,
+    #2a0505,
+    #1a0a0a,
+    #0a0a0f
+  );
+  background-size: 400% 400%;
+  animation: hellfire-bg 15s ease infinite;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Rising fire particles */
+@keyframes rise {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+.fire-particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #ff4444, #ff0000);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: rise linear infinite;
+}
+
+/* Countdown timer pulse */
+@keyframes timer-pulse {
+  0%, 100% {
+    transform: scale(1);
+    color: #ff4444;
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ff0000;
+  }
+}
+
+.timer-critical {
+  animation: timer-pulse 0.5s ease-in-out infinite;
+}
+
+/* Grid glow effect */
+@keyframes grid-glow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.grid-overlay {
+  background-image: 
+    linear-gradient(rgba(255, 26, 26, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 26, 26, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-glow 4s ease-in-out infinite;
+}
+
+/* Success flash */
+@keyframes success-flash {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 68, 68, 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.success-flash {
+  animation: success-flash 0.5s ease-out;
+}
+
+/* Evolved text */
+@keyframes evolved {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+    text-shadow: 0 0 50px #ff0000;
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 0 0 100px #ff0000, 0 0 200px #ff4444;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    text-shadow: 0 0 30px #ff0000;
+  }
+}
+
+.evolved-text {
+  animation: evolved 1s ease-out forwards;
+}
+
+/* Card hover effect */
+.symbol-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(145deg, #151520, #0a0a10);
+  border: 1px solid rgba(255, 26, 26, 0.3);
+}
+
+.symbol-card:hover:not(.disabled) {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(255, 68, 68, 0.6);
+  box-shadow: 0 10px 40px rgba(255, 26, 26, 0.3),
+              inset 0 0 30px rgba(255, 26, 26, 0.1);
+}
+
+.symbol-card.selected {
+  border-color: #ff4444;
+  box-shadow: 0 0 30px rgba(255, 68, 68, 0.5),
+              inset 0 0 20px rgba(255, 26, 26, 0.2);
+}
+
+.symbol-card.correct {
+  border-color: #00ff88;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  background: linear-gradient(145deg, #0a1a10, #051008);
+}
+
+.symbol-card.incorrect {
+  border-color: #ff0033;
+  box-shadow: 0 0 30px rgba(255, 0, 51, 0.5);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Level complete overlay */
+.level-complete-overlay {
+  backdrop-filter: blur(10px);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 26, 26, 0.2) 0%,
+    rgba(10, 10, 15, 0.9) 100%
+  );
+}
+
+/* Button glow */
+.btn-hellfire {
+  background: linear-gradient(135deg, #ff1a1a, #cc0000);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-hellfire::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+}
+
+.btn-hellfire:hover::before {
+  left: 100%;
+}
+
+.btn-hellfire:hover {
+  box-shadow: 0 0 30px rgba(255, 26, 26, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Typewriter effect */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #ff4444; }
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid #ff4444;
+  white-space: nowrap;
+  animation: 
+    typewriter 2s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+/* Noise overlay */
+@keyframes noise {
+  0%, 100% { background-position: 0 0; }
+  10% { background-position: -5% -10%; }
+  20% { background-position: -15% 5%; }
+  30% { background-position: 7% -25%; }
+  40% { background-position: 20% 25%; }
+  50% { background-position: -25% 10%; }
+  60% { background-position: 15% 5%; }
+  70% { background-position: 0% 15%; }
+  80% { background-position: 25% 35%; }
+  90% { background-position: -10% 10%; }
+}
+
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: noise 1s steps(10) infinite;
+  z-index: 999;
+}
+
+/* Symbol icons */
+.demon-symbol {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px currentColor);
+  transition: all 0.3s ease;
+}
+
+.demon-symbol:hover {
+  filter: drop-shadow(0 0 20px currentColor);
+  transform: scale(1.1);
+}
+
+/* Progress bar */
+.progress-hellfire {
+  background: linear-gradient(90deg, #ff0000, #ff4444, #ff6666);
+  box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+  transition: width 0.5s ease;
+}
+
+/* Infernal text */
+.infernal-text {
+  background: linear-gradient(135deg, #ff1a1a, #ff6644, #ff1a1a);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hellfire-bg 3s ease infinite;
+}
+
+/* Chrome text */
+.chrome-text {
+  background: linear-gradient(180deg, #ffffff, #c0c0c0, #888888, #c0c0c0, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(192, 192, 192, 0.5);
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Score counter */
+@keyframes score-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+    color: #ff4444;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.score-pop {
+  animation: score-pop 0.3s ease-out;
+}
